@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qsr-superset
+    ports:
+      - "8088:8088"
+    environment:
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@superset.com}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-this}
+      - DATABASE=${DATABASE:-sqlite:////app/superset.db}
+    volumes:
+      - superset_home:/app/superset_home
+    networks:
+      - superset-network
+    restart: unless-stopped
+
+  # Optional: PostgreSQL database for production use
+  # Uncomment below if you want to use PostgreSQL instead of SQLite
+  postgres:
+    image: postgres:14
+    container_name: qsr-postgres
+    environment:
+      - POSTGRES_DB=superset
+      - POSTGRES_USER=superset
+      - POSTGRES_PASSWORD=superset
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - superset-network
+    restart: unless-stopped
+
+volumes:
+  superset_home:
+  postgres_data:
+
+networks:
+  superset-network:
+    driver: bridge
