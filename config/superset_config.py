@@ -15,4 +15,6 @@ SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE")
 
 HTTP_HEADERS = {"X-Frame-Options": "ALLOWALL"}
 
+WTF_CSRF_ENABLED = False
+
 TALISMAN_ENABLED = False
