@@ -18,3 +18,5 @@ HTTP_HEADERS = {"X-Frame-Options": "ALLOWALL"}
 WTF_CSRF_ENABLED = False
 
 TALISMAN_ENABLED = False
+
+PUBLIC_ROLE_LIKE = "Gamma"
